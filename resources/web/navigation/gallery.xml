@@ -1,0 +1,12 @@
+<menue>
+	<menue name="Photo Gallery">
+		<menue name="All blog changes" interface="gallery" form="news">
+			<permission>reader</permission>
+			<permission>guest</permission>
+		</menue>
+		<menue name="Build gallery" interface="task" form="build_gallery">
+			<permission>writer</permission>
+		</menue>
+	</menue>
+
+</menue>

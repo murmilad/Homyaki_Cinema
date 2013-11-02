@@ -1,0 +1,7 @@
+<menue>
+	<menue name="Cinema" interface="main" form="cinema">
+		<permission>reader</permission>
+		<permission>guest</permission>
+	</menue>
+
+</menue>

@@ -53,7 +53,7 @@ sub start {
 
 	$result->{task} = {
 		retry => {
-			minutes => 1,
+			days => 1,
 		},
 	};
 

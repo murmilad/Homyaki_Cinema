@@ -24,19 +24,20 @@ sub start {
 	my $params = $h{params};
 	my $task   = $h{task};
 
-	my $torrens = $params->{torrent_files_list} || {};
-
 	if (-d &TORRENTS_PATH) {
 		if (opendir(my $dh, &TORRENTS_PATH)){
 			my @torrent_files = grep { /\.torrent$/} readdir($dh);
 	    	closedir $dh;
 			foreach my $torrent_file (@torrent_files) {
-				unless ($params->{torrent_files_list}->{$torrent_file}){
-					$params->{torrent_files_list}->{$torrent_file} = load_film_data($torrent_file);
-					if ($params->{torrent_files_list}->{$torrent_file}->{header}) {
+				my @exist = Homyaki::Cinema::Movies->search(
+					torrent_path => &TORRENTS_PATH . $torrent_file
+				);
+				if (scalar(@exist) == 0) {
+					my $torrent_data = load_film_data($torrent_file);
+					if ($torrent_data->{header}) {
 						Homyaki::Cinema::Movies->insert({
 							torrent_path => &TORRENTS_PATH . $torrent_file,
-							name         => $params->{torrent_files_list}->{$torrent_file}->{header},
+							name         => $torrent_data->{header},
 							deleted      => 0,
 						});
 					}
@@ -52,11 +53,8 @@ sub start {
 
 	$result->{task} = {
 		retry => {
-			days => 1,
+			minutes => 1,
 		},
-		params  => {
-			torrent_files_list => $params->{torrent_files_list},
-		}
 	};
 
 	return $result;
@@ -104,6 +102,7 @@ sub load_film_data {
 	}
 	return $data;
 }
+1;
 #Homyaki::Task_Manager::Task::Build_Cinema->start();
 __END__
 		use Homyaki::Task_Manager::DB::Task_Type;
@@ -119,4 +118,3 @@ __END__
 				modal        => 1,
 			);
 		}
-1;

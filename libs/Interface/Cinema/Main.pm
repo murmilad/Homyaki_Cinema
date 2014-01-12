@@ -16,7 +16,12 @@ use base 'Homyaki::Interface::Interface_Helper';
 
 use constant PARAMS_MAP  => {
 };
-
+use constant RATING_NAME =>{
+	3  => 'Not so good',
+	4  => 'Recommend',
+	5  => 'Recommend',
+	'' => 'Didn\'t see'
+};
 
 sub get_form {
 	my $self = shift;
@@ -75,8 +80,8 @@ sub get_form {
 			);
 			$form_param = $form_param->add_form_element(
 				name     => 'cinema_rating',
-				type     => &INPUT_TYPE_LABEL,
-				value    => $movie->{rating},
+					type     => &INPUT_TYPE_LABEL,
+					value    => &RATING_NAME->{$movie->{rating}},
 				location => &LOCATION_RIGHT,
 			);
 			$form->add_form_element(

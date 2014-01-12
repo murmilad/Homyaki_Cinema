@@ -40,7 +40,7 @@ sub get_form {
 
 	my $permissions = $user->{permissions};
 
-	foreach my $movie (sort {$b->{rating} <=> $a->{rating}} @{$params->{movies}}){
+	foreach my $movie (sort {$b->{rating} <=> $a->{rating}} sort {$b->{id} <=> $a->{id}}  @{$params->{movies}}){
 		my $form_param = $form->add_form_element(
 			name   => 'mark',
 			type   => &INPUT_TYPE_LABEL,
